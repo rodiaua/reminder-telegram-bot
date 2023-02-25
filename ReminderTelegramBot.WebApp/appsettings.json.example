@@ -1,0 +1,12 @@
+{
+  "ConnectionStrings": {
+    "ReminderDb": "Data Source=LocalDatabase.db"
+  },
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "AllowedHosts": "*"
+}
