@@ -14,7 +14,7 @@ var builder = WebApplication.CreateBuilder(args);
 #region database registrations
 builder.Services.AddDbContext<ReminderDbContext>(options =>
 {
-    options.UseSqlite(builder.Configuration.GetConnectionString("ReminderDb"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("ReminderDb"));
 });
 builder.Services.AddTransient<IReminderRepository, ReminderRepository>();
 builder.Services.AddTransient<ITelegramChatRepository, TelegramChatRepository>();
