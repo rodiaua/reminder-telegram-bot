@@ -25,6 +25,12 @@ namespace ReminderTelegramBot.WebApp.Data.Repository
             return reminders;
         }
 
+        public async Task<IReadOnlyCollection<Reminder>> GetRemindersByTelegramChatKeyNoTrackingAsync(long telegramChatKey)
+        {
+            var reminders = await dbContext.Reminders.AsNoTracking().Where(e => e.TelegramChatKey == telegramChatKey).ToListAsync();
+            return reminders;
+        }
+
         public async Task<IReadOnlyCollection<Reminder>> GetRemindersNoTrackingAsync(IReadOnlyCollection<long> reminderKeys)
         {
             var reminders = await GetRemindersByKeysQuery(reminderKeys).AsNoTracking().ToListAsync();
@@ -39,7 +45,8 @@ namespace ReminderTelegramBot.WebApp.Data.Repository
 
         public Task UpdateReminderAsync(Reminder reminder)
         {
-            throw new NotImplementedException();
+            dbContext.Reminders.Update(reminder);
+            return SaveChangesAsync();
         }
 
         private IQueryable<Reminder> GetRemindersByKeysQuery(IReadOnlyCollection<long> reminderKeys)

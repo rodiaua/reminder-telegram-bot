@@ -3,7 +3,9 @@ using ReminderTelegramBot.WebApp.Data.Context;
 using ReminderTelegramBot.WebApp.Data.Repository;
 using ReminderTelegramBot.WebApp.RequestHandlers.AddReminderRequestHandler;
 using ReminderTelegramBot.WebApp.RequestHandlers.AddTelegramChatRequestHandler;
+using ReminderTelegramBot.WebApp.RequestHandlers.GetRemindersRequestHandler;
 using ReminderTelegramBot.WebApp.RequestHandlers.RemoveRminderRequestHandler;
+using ReminderTelegramBot.WebApp.RequestHandlers.UpdateReminderRequestHandler;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +24,8 @@ builder.Services.AddTransient<ITelegramChatRepository, TelegramChatRepository>()
 builder.Services.AddTransient<AddReminderRequestHandler>();
 builder.Services.AddTransient<AddTelegramChatRequestHandler>();
 builder.Services.AddTransient<RemoveReminderRequestHandler>();
+builder.Services.AddTransient<UpdateReminderRequestHandler>();
+builder.Services.AddTransient<GetRemindersByChatIdRequestHandler>();
 #endregion
 
 builder.Services.AddControllers();

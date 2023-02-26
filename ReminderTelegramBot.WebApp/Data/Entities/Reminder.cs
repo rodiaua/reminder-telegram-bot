@@ -16,7 +16,7 @@
         public TelegramChat TelegramChat { get; private set; }
 
         public static Reminder BuildDatabaseItem(long telegramChatKey, DateTimeOffset remindTime,
-            string reminderTitle, string reminderDescription = null)
+            string reminderTitle, string reminderDescription)
         {
             return new Reminder()
             {
@@ -26,6 +26,15 @@
                 RemindTimeUtc = remindTime.UtcDateTime,
                 RemindTimeLocal = remindTime.LocalDateTime
             };
+        }
+
+        public void UpdateDatabaseItem(DateTimeOffset remindTime,
+            string reminderTitle, string reminderDescription)
+        {
+            ReminderDescription = reminderDescription;
+            ReminderTitle = reminderTitle;
+            RemindTimeUtc = remindTime.UtcDateTime;
+            RemindTimeLocal = remindTime.LocalDateTime;
         }
     }
 }
