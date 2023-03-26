@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using ReminderTelegramBot.WebApp.Data.Entities;
 using ReminderTelegramBot.WebApp.Data.Repository;
 using ReminderTelegramBot.WebApp.Models;
+using ReminderTelegramBot.WebApp.Services;
 
 namespace ReminderTelegramBot.WebApp.RequestHandlers.UpdateReminderRequestHandler
 {
@@ -10,15 +11,38 @@ namespace ReminderTelegramBot.WebApp.RequestHandlers.UpdateReminderRequestHandle
     {
         private readonly IReminderRepository reminderRepository;
         private readonly ILogger logger;
+        private readonly ReminderScheduler reminderScheduler;
+        private readonly ReminderService reminderService;
 
-        public UpdateReminderRequestHandler(IReminderRepository reminderRepository, ILogger<UpdateReminderRequestHandler> logger)
+        public UpdateReminderRequestHandler(IReminderRepository reminderRepository,
+            ILogger<UpdateReminderRequestHandler> logger,
+            ReminderScheduler reminderScheduler,
+            ReminderService reminderService)
         {
             this.reminderRepository = reminderRepository;
             this.logger = logger;
+            this.reminderScheduler = reminderScheduler;
+            this.reminderService = reminderService;
         }
 
         public async Task<IActionResult> Handle(UpdateReminderRequest request)
         {
+            if (ReminderTimeExpired() && !request.RepeatEveryDay)
+            {
+                logger.LogInformation("Unable to update reminder - {reminderKey} with expired time - {utcDateTime}",
+                    request.ReminderKey, request.ReminderTime.UtcDateTime);
+                return new ObjectResult(new DefaultResponse("Reminder time is not valid"))
+                {
+                    StatusCode = StatusCodes.Status400BadRequest
+                };
+            }
+
+            //if reminder is expired but should be repeated every day then set up next reminder one day later
+            if (ReminderTimeExpired() && request.RepeatEveryDay)
+            {
+                request.ReminderTime.AddDays(1);
+            }
+
             var reminders = await reminderRepository.GetRemindersNoTrackingAsync(new long[] { request.ReminderKey });
             if (!reminders.Any())
             {
@@ -29,7 +53,7 @@ namespace ReminderTelegramBot.WebApp.RequestHandlers.UpdateReminderRequestHandle
                 };
             }
             var reminder = reminders.FirstOrDefault();
-            reminder.UpdateDatabaseItem(request.ReminderTime, request.ReminderTitle, request.Description);
+            reminder.UpdateDatabaseItem(request.ReminderTime, request.ReminderTitle, request.Description, request.RepeatEveryDay);
             try
             {
                 await reminderRepository.UpdateReminderAsync(reminder);
@@ -37,13 +61,25 @@ namespace ReminderTelegramBot.WebApp.RequestHandlers.UpdateReminderRequestHandle
             catch (DbUpdateException ex)
             {
                 logger.LogError(ex, "Failed to update reminder - {reminderKey} for telegram chat - {chatKey}", request.ReminderKey, reminder.TelegramChatKey);
-                return new ObjectResult(new DefaultResponse("Unexcpected error while updating reminder"))
+                return new ObjectResult(new DefaultResponse("Unexpected error while updating reminder"))
                 {
                     StatusCode = StatusCodes.Status500InternalServerError
                 };
             }
-            logger.LogInformation("Reminder - {reminderKey} successfuly updated", request.ReminderKey);
+
+            reminderScheduler.UpdateScheduledReminder(() =>
+                reminderService.SendReminderToTelegramBot(reminder.TelegramChat.TelegramChatId, request.ReminderTitle, request.Description),
+                 reminder.ReminderKey,
+                 request.ReminderTime.UtcDateTime,
+                 request.RepeatEveryDay);
+
+            logger.LogInformation("Reminder - {reminderKey} successfully updated", request.ReminderKey);
             return new OkResult();
+
+            bool ReminderTimeExpired()
+            {
+                return DateTimeOffset.UtcNow >= request.ReminderTime.UtcDateTime;
+            }
         }
     }
 }

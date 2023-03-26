@@ -33,7 +33,7 @@ namespace ReminderTelegramBot.WebApp.RequestHandlers.GetRemindersRequestHandler
 
             var remindersRespnose = reminders.Select(r => new GetRemindersByChatIdResponse()
             {
-                DateTimeUtcUnix = r.RemindTimeUtc.ToUnixTimeMilliseconds(),
+                DateTimeUtcUnix = r.ReminderTimeUtc.ToUnixTimeMilliseconds(),
                 ReminderDescription = r.ReminderDescription,
                 ReminderKey = r.ReminderKey,
                 ReminderTitle = r.ReminderTitle

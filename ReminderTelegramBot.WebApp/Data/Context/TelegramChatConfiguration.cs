@@ -9,6 +9,7 @@ namespace ReminderTelegramBot.WebApp.Data.Context
         public void Configure(EntityTypeBuilder<TelegramChat> builder)
         {
             builder.HasKey(e => e.TelegramChatKey);
+            builder.Property(e => e.TelegramChatKey).ValueGeneratedOnAdd();
         }
     }
 }
