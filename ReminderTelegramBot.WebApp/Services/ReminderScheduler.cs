@@ -26,7 +26,7 @@
                     await reminderFunction();
                     if(repeatEveryDay)
                     {
-                        nextReminderUtcTime.AddSeconds(10);
+                        nextReminderUtcTime = nextReminderUtcTime.AddDays(1);
                         UpdateScheduledReminder(reminderFunction, reminderKey, nextReminderUtcTime, repeatEveryDay);
                     }
                     else
