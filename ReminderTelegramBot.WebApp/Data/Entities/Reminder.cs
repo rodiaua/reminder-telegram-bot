@@ -6,7 +6,7 @@
         {
 
         }
-        public long ReminderKey { get; private set;}
+        public long ReminderKey { get; private set; }
         public long TelegramChatKey { get; private set; }
         public DateTimeOffset ReminderTimeUtc { get; private set; }
         public DateTimeOffset ReminderTimeLocal { get; private set; }
@@ -26,8 +26,15 @@
                 TelegramChatKey = telegramChatKey,
                 ReminderTimeUtc = remindTime.UtcDateTime,
                 ReminderTimeLocal = remindTime.LocalDateTime,
-                RepeatEveryDay= repeatEveryDay
+                RepeatEveryDay = repeatEveryDay
             };
+        }
+
+
+        public void UpdateDatabaseItem(DateTimeOffset remindTime)
+        {
+            ReminderTimeUtc = remindTime.UtcDateTime;
+            ReminderTimeLocal = remindTime.LocalDateTime;
         }
 
         public void UpdateDatabaseItem(DateTimeOffset remindTime,
@@ -39,5 +46,7 @@
             ReminderTimeLocal = remindTime.LocalDateTime;
             RepeatEveryDay = repeatEveryDay;
         }
+
+        
     }
 }

@@ -4,6 +4,7 @@ using ReminderTelegramBot.WebApp.Data.Entities;
 using ReminderTelegramBot.WebApp.Data.Repository;
 using ReminderTelegramBot.WebApp.Models;
 using ReminderTelegramBot.WebApp.Services;
+using ReminderTelegramBot.WebApp.Utils;
 
 namespace ReminderTelegramBot.WebApp.RequestHandlers.AddReminderRequestHandler
 {
@@ -43,7 +44,7 @@ namespace ReminderTelegramBot.WebApp.RequestHandlers.AddReminderRequestHandler
             //if reminder is expired but should be repeated every day then set up next reminder one day later
             if (ReminderTimeExpired() && request.RepeatEveryDay)
             {
-                request.ReminderTime.AddDays(1);
+                request.ReminderTime = request.ReminderTime.AddDays(1);
             }
 
             var telegramChatIdsKeys = await telegramChatRepository.GetTelegramChatIdsKeysAsync(new long[] { request.TelegramChatId });

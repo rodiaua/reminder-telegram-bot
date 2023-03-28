@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using ReminderTelegramBot.WebApp.Data.Entities;
 using ReminderTelegramBot.WebApp.Data.Repository;
 using ReminderTelegramBot.WebApp.Models;
-using ReminderTelegramBot.WebApp.Services;
+using ReminderTelegramBot.WebApp.Utils;
 
 namespace ReminderTelegramBot.WebApp.RequestHandlers.RemoveRminderRequestHandler
 {

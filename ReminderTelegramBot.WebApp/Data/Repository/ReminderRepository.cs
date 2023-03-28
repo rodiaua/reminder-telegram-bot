@@ -50,6 +50,11 @@ namespace ReminderTelegramBot.WebApp.Data.Repository
             return SaveChangesAsync();
         }
 
+        public void Dispose()
+        {
+            dbContext.Dispose();
+        }
+
         private IQueryable<Reminder> GetRemindersByKeysQuery(IReadOnlyCollection<long> reminderKeys)
         {
             return dbContext.Reminders.Where(e => reminderKeys.Contains(e.ReminderKey));

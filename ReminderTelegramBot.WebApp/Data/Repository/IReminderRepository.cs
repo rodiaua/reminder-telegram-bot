@@ -2,7 +2,7 @@
 
 namespace ReminderTelegramBot.WebApp.Data.Repository
 {
-    public interface IReminderRepository
+    public interface IReminderRepository : IDisposable
     {
         Task<long> AddReminderAsync(Reminder reminder);
         Task RemoveReminderAsync(IReadOnlyCollection<Reminder> reminders);
