@@ -13,9 +13,9 @@ namespace ReminderTelegramBot.WebApp.Data.Migrations
                 name: "TelegramChats",
                 columns: table => new
                 {
-                    TelegramChatKey = table.Column<long>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    TelegramChatId = table.Column<long>(type: "INTEGER", nullable: false)
+                    TelegramChatKey = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    TelegramChatId = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -26,23 +26,29 @@ namespace ReminderTelegramBot.WebApp.Data.Migrations
                 name: "Reminders",
                 columns: table => new
                 {
-                    ReminderKey = table.Column<long>(type: "INTEGER", nullable: false),
-                    TelegramChatKey = table.Column<long>(type: "INTEGER", nullable: false),
-                    RemindTimeUtc = table.Column<DateTimeOffset>(type: "TEXT", nullable: false),
-                    RemindTimeLocal = table.Column<DateTimeOffset>(type: "TEXT", nullable: false),
-                    ReminderTitle = table.Column<string>(type: "TEXT", nullable: false),
-                    ReminderDescription = table.Column<string>(type: "TEXT", nullable: false)
+                    ReminderKey = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    TelegramChatKey = table.Column<long>(type: "bigint", nullable: false),
+                    RemindTimeUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    RemindTimeLocal = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    ReminderTitle = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ReminderDescription = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Reminders", x => x.ReminderKey);
                     table.ForeignKey(
-                        name: "FK_Reminders_TelegramChats_ReminderKey",
-                        column: x => x.ReminderKey,
+                        name: "FK_Reminders_TelegramChats_TelegramChatKey",
+                        column: x => x.TelegramChatKey,
                         principalTable: "TelegramChats",
                         principalColumn: "TelegramChatKey",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Reminders_TelegramChatKey",
+                table: "Reminders",
+                column: "TelegramChatKey");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

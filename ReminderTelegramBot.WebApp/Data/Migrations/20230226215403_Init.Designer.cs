@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ReminderTelegramBot.WebApp.Data.Context;
@@ -11,37 +12,46 @@ using ReminderTelegramBot.WebApp.Data.Context;
 namespace ReminderTelegramBot.WebApp.Data.Migrations
 {
     [DbContext(typeof(ReminderDbContext))]
-    [Migration("20230220152243_Init")]
+    [Migration("20230226215403_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "6.0.14");
+            modelBuilder
+                .HasAnnotation("ProductVersion", "6.0.14")
+                .HasAnnotation("Relational:MaxIdentifierLength", 128);
+
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
             modelBuilder.Entity("ReminderTelegramBot.WebApp.Data.Entities.Reminder", b =>
                 {
                     b.Property<long>("ReminderKey")
-                        .HasColumnType("INTEGER");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("ReminderKey"), 1L, 1);
 
                     b.Property<DateTimeOffset>("RemindTimeLocal")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<DateTimeOffset>("RemindTimeUtc")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<string>("ReminderDescription")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ReminderTitle")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<long>("TelegramChatKey")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("bigint");
 
                     b.HasKey("ReminderKey");
+
+                    b.HasIndex("TelegramChatKey");
 
                     b.ToTable("Reminders");
                 });
@@ -50,10 +60,12 @@ namespace ReminderTelegramBot.WebApp.Data.Migrations
                 {
                     b.Property<long>("TelegramChatKey")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("TelegramChatKey"), 1L, 1);
 
                     b.Property<long>("TelegramChatId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("bigint");
 
                     b.HasKey("TelegramChatKey");
 
@@ -64,7 +76,7 @@ namespace ReminderTelegramBot.WebApp.Data.Migrations
                 {
                     b.HasOne("ReminderTelegramBot.WebApp.Data.Entities.TelegramChat", "TelegramChat")
                         .WithMany("Reminders")
-                        .HasForeignKey("ReminderKey")
+                        .HasForeignKey("TelegramChatKey")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

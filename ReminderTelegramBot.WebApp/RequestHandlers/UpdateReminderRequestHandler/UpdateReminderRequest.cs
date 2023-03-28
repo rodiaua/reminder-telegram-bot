@@ -6,5 +6,6 @@
         public string ReminderTitle { get; set; }
         public string Description { get; set; }
         public DateTimeOffset ReminderTime { get; set; }
+        public bool RepeatEveryDay { get; set; }
     }
 }

@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using ReminderTelegramBot.WebApp.Data.Entities;
 using ReminderTelegramBot.WebApp.Data.Repository;
 using ReminderTelegramBot.WebApp.Models;
+using ReminderTelegramBot.WebApp.Utils;
 
 namespace ReminderTelegramBot.WebApp.RequestHandlers.RemoveRminderRequestHandler
 {
@@ -10,10 +11,15 @@ namespace ReminderTelegramBot.WebApp.RequestHandlers.RemoveRminderRequestHandler
     {
         private readonly ILogger logger;
         private readonly IReminderRepository reminderRepository;
-        public RemoveReminderRequestHandler(ILogger<RemoveReminderRequestHandler> logger, IReminderRepository reminderRepository)
+        private readonly ReminderScheduler reminderScheduler;
+
+        public RemoveReminderRequestHandler(ILogger<RemoveReminderRequestHandler> logger,
+            IReminderRepository reminderRepository,
+            ReminderScheduler reminderScheduler)
         {
             this.logger = logger;
             this.reminderRepository = reminderRepository;
+            this.reminderScheduler = reminderScheduler;
         }
 
         public async Task<IActionResult> Handle(RemoveReminderRequest request)
@@ -40,6 +46,9 @@ namespace ReminderTelegramBot.WebApp.RequestHandlers.RemoveRminderRequestHandler
                     StatusCode = StatusCodes.Status500InternalServerError
                 };
             }
+
+            reminderScheduler.RemoveScheduledReminder(request.ReminderKey);
+
             logger.LogInformation("Reminder - {reminderKey} successfuly removed", request.ReminderKey);
             return new OkResult();
         }
