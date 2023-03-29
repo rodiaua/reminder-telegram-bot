@@ -10,6 +10,7 @@ namespace ReminderTelegramBot.WebApp.Data.Context
         {
             builder.HasKey(e => e.TelegramChatKey);
             builder.Property(e => e.TelegramChatKey).ValueGeneratedOnAdd();
+            builder.HasIndex(e => e.TelegramChatId).IsUnique();
         }
     }
 }

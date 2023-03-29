@@ -10,7 +10,7 @@ namespace ReminderTelegramBot.WebApp.Data.Repository
 
         public ReminderRepository(ReminderDbContext reminderDbContext)
         {
-            this.dbContext = reminderDbContext;
+            dbContext = reminderDbContext;
         }
 
         public async Task<long> AddReminderAsync(Reminder reminder)

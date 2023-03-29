@@ -10,7 +10,7 @@ namespace ReminderTelegramBot.WebApp.Data.Repository
 
         public TelegramChatRepository(ReminderDbContext reminderDbContext)
         {
-            this.dbContext = reminderDbContext;
+            dbContext = reminderDbContext;
         }
 
         public Task AddTelegramChatAsync(TelegramChat telegramChat)
