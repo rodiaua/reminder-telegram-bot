@@ -1,8 +1,5 @@
 ﻿using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
-using Microsoft.EntityFrameworkCore.Migrations.Internal;
 using ReminderTelegramBot.WebApp.Data.Context;
 using ReminderTelegramBot.WebApp.Data.Entities;
 using ReminderTelegramBot.WebApp.Data.Repository;
@@ -12,13 +9,11 @@ namespace ReminderTelegramBot.WebApp.Tests.Database
 {
     [Category("IntegrationTests")]
     [TestFixture]
-
     public class TelegramChatRepositoryTests
     {
         private readonly TelegramChatRepository repository;
         private readonly ReminderDbContext reminderDbContext;
         private int telegramChatRecordsCount;
-        private long telegramChatId = 1;
 
         public TelegramChatRepositoryTests()
         {
