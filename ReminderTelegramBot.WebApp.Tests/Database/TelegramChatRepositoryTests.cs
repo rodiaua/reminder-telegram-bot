@@ -10,7 +10,9 @@ using System;
 
 namespace ReminderTelegramBot.WebApp.Tests.Database
 {
+    [Category("IntegrationTests")]
     [TestFixture]
+
     public class TelegramChatRepositoryTests
     {
         private readonly TelegramChatRepository repository;
@@ -68,7 +70,7 @@ namespace ReminderTelegramBot.WebApp.Tests.Database
         }
 
         [Test]
-        public async Task test_GetTelegramChatIdsKeysAsync_returns_id_key_pars_for()
+        public async Task test_GetTelegramChatIdsKeysAsync_returns_valid_id_key_pairs()
         {
             //arrange
             var numberOfEntities = 10;
