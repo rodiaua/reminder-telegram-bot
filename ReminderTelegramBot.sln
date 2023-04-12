@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31912.275
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReminderTelegramBot.WebApp", "ReminderTelegramBot.WebApp\ReminderTelegramBot.WebApp.csproj", "{DFA45FB0-975D-4E7A-9C68-C4F0D7AC7E96}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReminderTelegramBot.WebAPI", "ReminderTelegramBot.WebAPI\ReminderTelegramBot.WebAPI.csproj", "{AFC9E160-72CF-4EC8-8A6E-6A0A804642D0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReminderTelegramBot.WebApp.Tests", "ReminderTelegramBot.WebApp.Tests\ReminderTelegramBot.WebApp.Tests.csproj", "{A916670E-5828-4957-B91F-4DBDC80C0921}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReminderTelegramBot.WebAPI.Tests", "ReminderTelegramBot.WebAPI.Tests\ReminderTelegramBot.WebAPI.Tests.csproj", "{C107A9DB-7D21-47DB-9317-882C11B30CA6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,14 +13,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{DFA45FB0-975D-4E7A-9C68-C4F0D7AC7E96}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DFA45FB0-975D-4E7A-9C68-C4F0D7AC7E96}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DFA45FB0-975D-4E7A-9C68-C4F0D7AC7E96}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DFA45FB0-975D-4E7A-9C68-C4F0D7AC7E96}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A916670E-5828-4957-B91F-4DBDC80C0921}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A916670E-5828-4957-B91F-4DBDC80C0921}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A916670E-5828-4957-B91F-4DBDC80C0921}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A916670E-5828-4957-B91F-4DBDC80C0921}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AFC9E160-72CF-4EC8-8A6E-6A0A804642D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AFC9E160-72CF-4EC8-8A6E-6A0A804642D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AFC9E160-72CF-4EC8-8A6E-6A0A804642D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AFC9E160-72CF-4EC8-8A6E-6A0A804642D0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C107A9DB-7D21-47DB-9317-882C11B30CA6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C107A9DB-7D21-47DB-9317-882C11B30CA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C107A9DB-7D21-47DB-9317-882C11B30CA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C107A9DB-7D21-47DB-9317-882C11B30CA6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
