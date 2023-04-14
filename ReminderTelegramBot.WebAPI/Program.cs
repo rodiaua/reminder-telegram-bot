@@ -1,7 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Console;
-using Microsoft.OpenApi.Models;
+using ReminderTelegramBot.Common;
 using ReminderTelegramBot.WebAPI.Data.Context;
 using ReminderTelegramBot.WebAPI.Data.Repository;
 using ReminderTelegramBot.WebAPI.RequestHandlers.AddReminderRequestHandler;
@@ -52,14 +50,7 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddLogging(configure =>
-{
-    configure.AddFilter("Microsoft.EntityFrameworkCore.Database.Command", LogLevel.Warning);
-    configure.AddSimpleConsole(configure =>
-    {
-        configure.TimestampFormat = "[dd/MM/yyyy - HH:mm:ss]";
-    });
-});
+builder.Services.AddSerilogLogging();
 
 var app = builder.Build();
 
