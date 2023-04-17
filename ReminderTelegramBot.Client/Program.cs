@@ -2,6 +2,7 @@ using Microsoft.Extensions.Options;
 using ReminderTelegramBot.Client.Settings;
 using ReminderTelegramBot.Common;
 using ReminderTelegramBot.WebAPI.Client;
+using Serilog;
 using Telegram.Bot;
 using Telegram.Bot.Polling;
 
@@ -15,7 +16,8 @@ namespace ReminderTelegramBot.Client
 
             builder.Services.Configure<TelegramBotSettings>(builder.Configuration.GetSection(nameof(TelegramBotSettings)));
             //add logging
-            builder.Services.AddSerilogLogging();
+            builder.Services.AddSerilogLogging(builder.Configuration);
+            /*builder.Services.AddSerilogLogging();*/
             //register handler for telegram bot updates
             builder.Services.AddTransient<IUpdateHandler, UpdateHandler>();
             //register Telegram Bot
@@ -31,7 +33,7 @@ namespace ReminderTelegramBot.Client
             builder.Services.AddScoped<IReminderTelegramBotWebApiClient>(options =>
             {
                 var baseUrl = builder.Configuration.GetSection("ReminderTelegramBotWebApiClient").Value;
-                return new ReminderTelegramBotWebApiClient(baseUrl);
+                return new ReminderTelegramBotWebApiClient(baseUrl, options.GetRequiredService<ILogger<ReminderTelegramBotWebApiClient>>());
             });
 
             var app = builder.Build();
