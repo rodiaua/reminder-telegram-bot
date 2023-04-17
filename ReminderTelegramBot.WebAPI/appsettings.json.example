@@ -1,5 +1,17 @@
 {
   "ConnectionStrings": {
     "ReminderDb": "Data Source=LocalDatabase.db"
+  },
+  "Serilog": {
+    "MinimumLevel": "Information",
+    "WriteTo": [
+      {
+        "Name": "Console",
+        "Args": {
+          "outputTemplate": "[{Timestamp:yyyy-MM-dd HH:mm:ss.fff}] [{Level:u4}] {Message:lj} {NewLine}{Exception}"
+        }
+      }
+    ],
+    "Enrich": [ "FromLogContext" ]
   }
 }

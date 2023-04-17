@@ -23,11 +23,12 @@ namespace ReminderTelegramBot.WebAPI.RequestHandlers.AddTelegramChatRequestHandl
             try
             {
                 await telegramChatRepository.AddTelegramChatAsync(TelegramChat.BuildDatabaseItem(request.TelegramChatId));
+                throw new DbUpdateException();
             }
             catch (DbUpdateException ex)
             {
                 logger.LogError(ex, "Failed to save telegram chat id {id}", request.TelegramChatId);
-                return new ObjectResult(new DefaultResponse("Unexpected error during saving reminder"))
+                return new ObjectResult(new DefaultResponse("Unexpected error during saving telegram chat"))
                 {
                     StatusCode = StatusCodes.Status500InternalServerError
                 };

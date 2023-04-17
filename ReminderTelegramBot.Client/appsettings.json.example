@@ -1,5 +1,18 @@
 {
   "TelegramBotSettings": {
     "APISecret": "{secret}"
+  },
+  "ReminderTelegramBotWebApiClient": "https://localhost:7007",
+  "Serilog": {
+    "MinimumLevel": "Information",
+    "WriteTo": [
+      {
+        "Name": "Console",
+        "Args": {
+          "outputTemplate": "[{Timestamp:yyyy-MM-dd HH:mm:ss.fff}] [{Level:u4}] {CorrelationId} {Message:lj} {NewLine}{Exception}"
+        }
+      }
+    ],
+    "Enrich": [ "FromLogContext" ]
   }
 }

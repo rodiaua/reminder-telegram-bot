@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Serilog;
 
@@ -6,18 +7,18 @@ namespace ReminderTelegramBot.Common
 {
     public static class ServicesExtensions
     {
-        public static IServiceCollection AddSerilogLogging(this IServiceCollection services)
+        public static IServiceCollection AddSerilogLogging(this IServiceCollection services, IConfiguration configuration)
         {
             Log.Logger = new LoggerConfiguration()
-            .MinimumLevel.Information()
-            .WriteTo.Console()
+            .ReadFrom.Configuration(configuration)
             .CreateLogger();
 
-            services.AddLogging(loggingBuilder =>
+            services.AddLogging(configure =>
             {
-                loggingBuilder.ClearProviders();
-                loggingBuilder.AddSerilog(Log.Logger);
-            });
+                configure.ClearProviders();
+                configure.AddSerilog(Log.Logger);
+            }); 
+
             return services;
         }
     }
