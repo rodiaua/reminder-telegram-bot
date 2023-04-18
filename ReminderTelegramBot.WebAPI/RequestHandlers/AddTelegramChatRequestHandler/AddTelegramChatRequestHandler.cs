@@ -23,7 +23,6 @@ namespace ReminderTelegramBot.WebAPI.RequestHandlers.AddTelegramChatRequestHandl
             try
             {
                 await telegramChatRepository.AddTelegramChatAsync(TelegramChat.BuildDatabaseItem(request.TelegramChatId));
-                throw new DbUpdateException();
             }
             catch (DbUpdateException ex)
             {
